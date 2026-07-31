@@ -1,0 +1,10 @@
+services:
+  personality-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      PERSONALITY_EMBEDDER: ${PERSONALITY_EMBEDDER:-mistral}
+      PERSONALITY_MISTRAL_API_KEY: ${PERSONALITY_MISTRAL_API_KEY:-}
+      PERSONALITY_LOG_LEVEL: ${PERSONALITY_LOG_LEVEL:-INFO}
+    restart: unless-stopped

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python predict.py)",
+      "Bash(pip --version)",
+      "Bash(conda env:*)"
+    ]
+  }
+}
