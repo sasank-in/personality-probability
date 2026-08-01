@@ -23,10 +23,21 @@ class Settings(BaseSettings):
     model_path: Path = Field(default=_ROOT / "artifacts" / "personality_model.pt")
     scaler_path: Path = Field(default=_ROOT / "artifacts" / "x_scaler.pkl")
 
-    # Embedding provider: "mistral" (real) or "raw" (caller supplies vector).
-    embedder: str = Field(default="mistral")
+    # Embedding provider: "local" (offline sentence-transformers, default),
+    # "mistral" (hosted API), or "raw" (caller supplies the vector).
+    embedder: str = Field(default="local")
+
+    # Local embedder (used when embedder="local"). These are fallbacks only —
+    # the checkpoint's embed_model/embed_prefix/normalize fields take precedence
+    # so the service always embeds exactly how the model was trained.
+    local_embed_model: str = Field(default="intfloat/e5-large-v2")
+    local_embed_prefix: str = Field(default="query: ")
+    local_normalize: bool = Field(default=True)
+
+    # Mistral embedder (used when embedder="mistral").
     mistral_api_key: str | None = Field(default=None)
     mistral_model: str = Field(default="mistral-embed")
+
     embedding_dim: int = Field(default=1024)
 
     # Input guardrails.

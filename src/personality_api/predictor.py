@@ -43,10 +43,16 @@ class PersonalityPredictor:
 
         self.test_accuracy = float(checkpoint.get("test_accuracy", float("nan")))
         self.model_version = str(checkpoint.get("model_type", "unknown"))
+        # Expose embedding metadata (embed_model/embed_prefix/normalize/embed_dim)
+        # so the service builds an embedder that matches how the model was trained.
+        self.checkpoint_meta = {
+            k: v for k, v in checkpoint.items() if k != "model_state_dict"
+        }
         logger.info(
-            "Model loaded (input_dim=%d, test_accuracy=%.4f)",
+            "Model loaded (input_dim=%d, test_accuracy=%.4f, embed_model=%s)",
             self._input_dim,
             self.test_accuracy,
+            checkpoint.get("embed_model", "n/a"),
         )
 
     @property

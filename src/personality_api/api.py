@@ -39,7 +39,7 @@ async def lifespan(app: FastAPI):
     # Embedder is optional at startup: the /predict/embedding path never needs it,
     # and /predict surfaces a clear 503 if the embedder is unavailable.
     try:
-        app.state.embedder = build_embedder(settings)
+        app.state.embedder = build_embedder(settings, app.state.predictor.checkpoint_meta)
         logger.info("Embedder ready: %s", app.state.embedder.name)
     except EmbeddingError as exc:
         app.state.embedder = None

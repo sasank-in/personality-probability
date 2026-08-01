@@ -9,3 +9,10 @@ dist/
 .venv/
 venv/
 scratchpad/
+scratchpad_emb/
+
+# notebook outputs
+notebooks/.ipynb_checkpoints/
+*.zip
+
+.claude/
